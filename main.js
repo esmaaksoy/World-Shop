@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
-
+import { selectedCategory } from "./selectedCategory.js"
 
 const getProducts = async()=>{
 try {
@@ -10,6 +10,7 @@ try {
  }
  const data = await res.json()
 showData(data)
+selectedCategory(data)
 } catch (error) {
   console.log(error);
 }
@@ -19,6 +20,7 @@ getProducts()
 const showData=(product)=>{
   product.forEach(item=>{
     const {title,category,description,image,price} = item
+
    const products= document.querySelector("#products")
    products.innerHTML += `
     <div class="col">
@@ -55,6 +57,10 @@ const showData=(product)=>{
 
 }
 
-window.addEventListener("load", ()=>{
-  getProducts()
-})
+// document.querySelector("#electronics").addEventListener("click",()=>{
+//   selectedCategory()
+// })
+
+
+
+
