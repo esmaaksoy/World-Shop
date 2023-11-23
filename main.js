@@ -9,12 +9,14 @@ searchInput.addEventListener("input",()=>{
 const getProducts = async()=>{
 
 try {
-  const res = await fetch("https://anthonyfs.pythonanywhere.com/api/products/")
+  const res = await fetch("am/api/products/")
+  console.log(res);
  if(!res.ok){
   throw new Error(`Error: ${res.status}`)
  }
  const data = await res.json()
-showData(data)
+console.log(data);
+// showData(data)
 } catch (error) {
   console.log(error);
 }
@@ -25,7 +27,7 @@ getProducts()
 const showData=(product)=>{
   product.forEach(item=>{
     const {title} = item
-    console.log(title);
+   
   })
 
 
