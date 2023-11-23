@@ -1,3 +1,17 @@
 body{
     background-color: aqua;
 }
+
+#products .card-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* İstediğiniz satır sayısını burada belirleyebilirsiniz */
+    -webkit-box-orient: vertical;
+}
+#products .card-title{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* İstediğiniz satır sayısını burada belirleyebilirsiniz */
+    -webkit-box-orient: vertical;
+}
+
