@@ -6,5 +6,4 @@ export const selectedCategory= (categories)=>{
       return accumulator;
     }, []);
       uniqueCategories.push("All");
-      console.log(uniqueCategories);
   }
