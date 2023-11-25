@@ -65,14 +65,13 @@ const showData=(product)=>{
 const butons= document.querySelector("#btns")
 
 butons.addEventListener("click", (event)=>{
+   products.innerHTML =""
+   console.log(products);
   if(event.target.textContent == "All"){
-getProducts()
+showData(dataArray)
   }else{
     const categoryData = dataArray.filter(item => item.category.toUpperCase() == event.target.textContent.toUpperCase())
-    console.log(categoryData);
-  //  console.log(dataArray.forEach(item => console.log(item.category)));
   showData(categoryData)
   }
-
 })
 
