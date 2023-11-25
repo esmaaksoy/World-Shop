@@ -58,9 +58,9 @@ const showData=(product)=>{
   })
 products.addEventListener("click",(event)=>{
  
-  if(event.target.classList.contains("btn-danger")){
-    addToCart(item)
-    
+  if(event.target.classList.contains("btn-primary")){
+    console.log("hi");
+    document.querySelector("#sepet").textContent++
   }
 })
 }
