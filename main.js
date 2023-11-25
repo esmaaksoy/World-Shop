@@ -48,13 +48,13 @@ const showData = (product) => {
               <span>Price:</span><span>${price} $</span>
             </div>
             <div class="card-footer w-100 d-flex justify-content-center gap-3">
-              <button class="btn btn-primary">Sepete Ekle</button>
+              <button class="btn btn-primary">Add to Basket</button>
               <button
                 class="btn btn-dark"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
-                Detayları Gör
+                See Details
               </button>
             </div>
           </div>
@@ -63,7 +63,6 @@ const showData = (product) => {
   });
   products.addEventListener("click", (event) => {
     if (event.target.classList.contains("btn-primary")) {
-      console.log("hi");
       document.querySelector("#sepet").textContent++;
     }
   });
@@ -84,3 +83,8 @@ butons.addEventListener("click", (event) => {
     searchCategory(categoryData);
   }
 });
+
+const getProperty=(product)=>{
+  const {title,image,price}= product
+
+}
