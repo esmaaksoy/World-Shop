@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
 import { selectedCategory } from "./selectedCategory.js"
-
+let dataArray =[];
 const getProducts = async()=>{
 try {
   const res = await fetch("https://anthonyfs.pythonanywhere.com/api/products/")
@@ -9,6 +9,7 @@ try {
   throw new Error(`Error: ${res.status}`)
  }
  const data = await res.json()
+ dataArray= data
 showData(data)
 selectedCategory(data)
 } catch (error) {
@@ -61,6 +62,17 @@ const showData=(product)=>{
 //   selectedCategory()
 // })
 
+const butons= document.querySelector("#btns")
 
+butons.addEventListener("click", (event)=>{
+  if(event.target.textContent == "All"){
+getProducts()
+  }else{
+    const categoryData = dataArray.filter(item => item.category.toUpperCase() == event.target.textContent.toUpperCase())
+    console.log(categoryData);
+  //  console.log(dataArray.forEach(item => console.log(item.category)));
+  showData(categoryData)
+  }
 
+})
 
