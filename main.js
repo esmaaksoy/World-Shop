@@ -1,6 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
 import { selectedCategory } from "./selectedCategory.js"
+const products= document.querySelector("#products");
+const search = document.querySelector("#searchInput");
+const butons= document.querySelector("#btns");
+const categoryName = document.querySelector("#category");
 let dataArray =[];
 let baskets=[];
 const getProducts = async()=>{
@@ -18,12 +22,9 @@ selectedCategory(data)
 }
 }
 getProducts()
-
 const showData=(product)=>{
   product.forEach(item=>{
     const {title,category,description,image,price} = item
-
-   const products= document.querySelector("#products")
    products.innerHTML += `
     <div class="col">
           <div class="card">
@@ -57,34 +58,31 @@ const showData=(product)=>{
    `
   })
 products.addEventListener("click",(event)=>{
- 
   if(event.target.classList.contains("btn-primary")){
     console.log("hi");
     document.querySelector("#sepet").textContent++
   }
 })
 }
-//!.............................................
-const addToCart=(product)=>{
-if(baskets.some(item=> item.title === product.title)){
-
-}else{
-  baskets.push(product)
-}
-}
-//!..................................................
-const butons= document.querySelector("#btns")
-const categoryName = document.querySelector("#category")
-
 butons.addEventListener("click", (event)=>{
    products.innerHTML =""
   if(event.target.textContent == "All"){
-showData(dataArray)
 categoryName.textContent= "All"
+showData(dataArray)
+searchFonk(dataArray)
   }else{
-    const categoryData = dataArray.filter(item => item.category.toUpperCase() == event.target.textContent.toUpperCase())
-  showData(categoryData)
+  const categoryData = dataArray.filter(item => item.category.toUpperCase() == event.target.textContent.toUpperCase())
   categoryName.textContent=event.target.textContent
+  showData(categoryData)
+  searchFonk(categoryData)
   }
 })
 
+const searchFonk= (searchCategory)=>{
+search.addEventListener("input",()=>{
+  products.innerHTML="";
+ const filteredData = searchCategory.filter(item=>item.title.toLowerCase().includes(search.value.toLowerCase()))
+ showData(filteredData);
+  })
+  
+}
