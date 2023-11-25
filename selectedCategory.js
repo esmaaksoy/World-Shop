@@ -8,11 +8,11 @@ console.log(categoryArr);
     //   return accumulator;
     // }, ["All"]);
     const butons= document.querySelector("#btns")
-    const btnColors=["primary","secondary","success","danger","warning","info"]
+    // const btnColors=["primary","secondary","success","danger","warning","info"]
 categoryArr.forEach((category, index)=>{
   const btn = document.createElement("button")
   btn.innerText= category.toUpperCase();
-  btn.classList.add("btn",`btn-${btnColors[index]}`)
+  btn.classList.add("btn",'btn-outline-primary')
   butons.appendChild(btn)
 })
 

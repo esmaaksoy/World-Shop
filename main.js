@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
 import { selectedCategory } from "./selectedCategory.js"
 let dataArray =[];
+let baskets=[];
 const getProducts = async()=>{
 try {
   const res = await fetch("https://anthonyfs.pythonanywhere.com/api/products/")
@@ -42,26 +43,36 @@ const showData=(product)=>{
               <span>Price:</span><span>${price} $</span>
             </div>
             <div class="card-footer w-100 d-flex justify-content-center gap-3">
-              <button class="btn btn-danger">Sepete Ekle</button>
+              <button class="btn btn-primary">Sepete Ekle</button>
               <button
-                class="btn btn-primary"
+                class="btn btn-dark"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
-                See Details
+                Detayları Gör
               </button>
             </div>
           </div>
         </div> 
    `
   })
-
+products.addEventListener("click",(event)=>{
+ 
+  if(event.target.classList.contains("btn-danger")){
+    addToCart(item)
+    
+  }
+})
 }
+//!.............................................
+const addToCart=(product)=>{
+if(baskets.some(item=> item.title === product.title)){
 
-// document.querySelector("#electronics").addEventListener("click",()=>{
-//   selectedCategory()
-// })
-
+}else{
+  baskets.push(product)
+}
+}
+//!..................................................
 const butons= document.querySelector("#btns")
 const categoryName = document.querySelector("#category")
 
