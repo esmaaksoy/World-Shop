@@ -7,8 +7,8 @@ const productDivs = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
 const categoryName = document.querySelector("#category");
-const basketProduct = document.querySelector(".offcanvas-body");
 const modalBody = document.querySelector(".modal-body");
+const offcanvasBody =document.querySelector(".offcanvas-body")
 let dataArray = [];
 let baskets = [];
 const getProducts = async () => {
@@ -85,6 +85,7 @@ butons.addEventListener("click", (event) => {
 });
 
 const addToCart=(product)=>{
+  console.log(baskets);
 if(baskets.some(item=>item.title === product.title)){
   baskets = baskets.map(item=>{
     return item.id === product.id ?{...item, quantity: item.quantity +1} : item;
@@ -92,6 +93,7 @@ if(baskets.some(item=>item.title === product.title)){
 }else{
   baskets.push(product)
 }
+updateLocalStorage()
 }
 const showModal=(product)=>{
   fetch(`https://anthonyfs.pythonanywhere.com/api/products/${product.id}`)
@@ -106,3 +108,45 @@ const showModal=(product)=>{
           `;
   })
 }
+
+ const updateLocalStorage = ()=>{
+  localStorage.setItem('shoppingCart', JSON.stringify(baskets));
+  const basketCard = localStorage.getItem('shoppingCart');
+  const basketProduct= JSON.parse(basketCard);
+
+  basketProduct.forEach(item=>{
+    const {image,title} = item
+    offcanvasBody.innerHTML +=`
+     <div class="card mb-3" style="max-width: 540px">
+    <div class="row g-0">
+      <div class="col-md-4 my-auto">
+        <img
+          src="${item.image}"
+          class="img-fluid rounded-start"
+          alt="..."
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">${item.title}</h5>
+          <div class="d-flex align-items-center gap-2" role="button">
+            <i
+              class="fa-solid fa-minus border rounded-circle bg-dark text-white p-2"
+            ></i
+            ><span class="fw-bold">${item.quantity}</span>
+            
+            <i class="fa-solid fa-plus border bg-dark text-white rounded-circle p-2"
+            ></i>
+          </div>
+          <p class="card-text h5">Total:${item.price} <span>$</span></p>
+          <button class="btn btn-dark">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>`
+  })
+
+ }
+
+         
+ 
