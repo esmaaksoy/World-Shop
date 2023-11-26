@@ -7,6 +7,7 @@ const products = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
 const categoryName = document.querySelector("#category");
+const basketProduct = document.querySelector(".offcanvas-body")
 let dataArray = [];
 let baskets = [];
 const getProducts = async () => {
@@ -62,8 +63,36 @@ const showData = (product) => {
    `;
   });
   products.addEventListener("click", (event) => {
+    
     if (event.target.classList.contains("btn-primary")) {
       document.querySelector("#sepet").textContent++;
+      basketProduct.innerHTML=`<div class="card mb-3" style="max-width: 540px">
+      <div class="row g-0">
+        <div class="col-md-4 my-auto">
+          <img
+            src="${}"
+            class="img-fluid rounded-start"
+            alt="..."
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Product Name</h5>
+            <div class="d-flex align-items-center gap-2" role="button">
+              <i
+                class="fa-solid fa-minus border rounded-circle bg-dark text-white p-2"
+              ></i
+              ><span class="fw-bold">1</span>
+              
+              <i class="fa-solid fa-plus border bg-dark text-white rounded-circle p-2"
+              ></i>
+            </div>
+            <p class="card-text h5">Total: <span>$</span></p>
+            <button class="btn btn-dark">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>`
     }
   });
 };

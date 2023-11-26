@@ -13,7 +13,6 @@ categoryArr.forEach((category, index)=>{
   btn.classList.add("btn",'btn-outline-primary')
   butons.appendChild(btn)
 })
-
-  }
+}
 
 
