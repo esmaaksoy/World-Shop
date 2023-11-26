@@ -5,7 +5,7 @@ export const updateLocalStorage = () => {
   const basketCard = localStorage.getItem("shoppingCart");
   const basketProduct = JSON.parse(basketCard);
   basketProduct.forEach((item) => {
-    const { image, title } = item;
+    const {image,title } = item;
     offcanvasBody.innerHTML += `
        <div class="card mb-3" style="max-width: 540px">
       <div class="row g-0">
@@ -27,7 +27,7 @@ export const updateLocalStorage = () => {
               <i class="fa-solid fa-plus border bg-dark text-white rounded-circle p-2"
               ></i>
             </div>
-            <p class="card-text h5">Total:${item.price} <span>$</span></p>
+            <p class="card-text h6 text-secondary">Total: ${item.quantity}X<span class="price">${item.price}</span> $</p>
             <button class="btn btn-dark">Remove</button>
           </div>
         </div>
@@ -35,26 +35,41 @@ export const updateLocalStorage = () => {
     </div>`;
   
   });
-  cardBody()
+  cardBody() 
+  totalCalculate()
 };
-
 const cardBody =()=>{
-  const card= document.querySelector(".card")
-  const quantity = document.querySelector(".quantity")
- card.addEventListener("click",(event)=>{
-    if(event.target.classList.contains("fa-plus")){
-   event.target.previousElementSibling.innerText++
-   basketNumber.innerText++
-      console.log( event.target.closest(".card-body").querySelector(".quantity").innerText);
-    }else if(event.target.classList.contains("fa-minus")){
-      if(event.target.nextElementSibling.innerText>1){
-        event.target.nextElementSibling.innerText--
-        basketNumber.innerText--
+  const cards= document.querySelectorAll(".card")
+  cards.forEach(card =>{
+    card.addEventListener("click",(event)=>{
+      if(event.target.classList.contains("fa-plus")){
+    event.target.previousElementSibling.innerText++
+    basketNumber.innerText++
+    //  totalCalculate()
+     }else if(event.target.classList.contains("fa-minus")){
+        if(event.target.nextElementSibling.innerText>1){
+          event.target.nextElementSibling.innerText--
+          basketNumber.innerText--
+        }
+        totalCalculate(event.target)
+      }else if(event.target.classList.contains("btn-dark")){
+        card.remove()
+        totalCalculate(event.target)
+        const cardQuantity = event.target.closest(".card-body").querySelector(".quantity")
+        basketNumber.innerText = basketNumber.innerText - Number(cardQuantity.innerText)
       }
-    }else if(event.target.classList.contains("btn-dark")){
-      card.remove()
-      // basketNumber.innerText= basketNumber.innerText-
-    }
-  })
+    })
+})
+
 }
-cardBody()
+const totalCalculate = (e)=>{
+  const cardBody = e.closest(".card").querySelector(".card-body");
+  const quantity = cardBody.querySelector(".quantity");
+  const price = cardBody.querySelector(".price");
+  const totalPrice = document.querySelector(".total");
+  const total = Number(quantity.innerText) * Number(price.innerText);
+  totalPrice.innerText = total;
+  }
+
+  
+  

@@ -3,7 +3,7 @@ import "./style.scss";
 import { selectedCategory } from "./src/selectedCategory.js";
 import { searchCategory } from "./src/search.js";
 import { updateLocalStorage } from "./src/offcanvas.js";
-export { showData, productDivs, search, baskets, offcanvasBody,basketNumber };
+export { showData, productDivs, search, baskets, offcanvasBody,basketNumber};
 const productDivs = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
@@ -25,6 +25,7 @@ const getProducts = async () => {
     dataArray = data;
     showData(data);
     selectedCategory(data);
+    
   } catch (error) {
     console.log(error);
   }
@@ -112,3 +113,9 @@ const showModal = (product) => {
           `;
     });
 };
+// //!.......................
+// const updateBaskets = (productId,newQuantity)=>{
+//   baskets = baskets.map(item => {
+//     return item.id === productId ? { ...item, quantity: newQuantity } : item;
+//   });
+// }
