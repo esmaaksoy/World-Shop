@@ -2,12 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
 import { selectedCategory } from "./src/selectedCategory.js";
 import { searchCategory } from "./src/search.js";
-export { showData, products, search };
-const products = document.querySelector("#products");
+export { showData, productDivs, search };
+const productDivs = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
 const categoryName = document.querySelector("#category");
-const basketProduct = document.querySelector(".offcanvas-body")
+const basketProduct = document.querySelector(".offcanvas-body");
+const modalBody = document.querySelector(".modal-body");
 let dataArray = [];
 let baskets = [];
 const getProducts = async () => {
@@ -28,76 +29,46 @@ const getProducts = async () => {
 };
 getProducts();
 const showData = (product) => {
+  productDivs.innerHTML = "";
   product.forEach((item) => {
-    const { title, category, description, image, price } = item;
-    products.innerHTML += `
-    <div class="col">
-          <div class="card">
-            <img
-              src="${image}"
-              class="p-2"
-              height="250px"
-              alt="..."
-            />
+    const { id, title, description, price, image } = item;
+    const productDiv = document.createElement("div");
+    productDiv.classList.add("col");
+    productDiv.setAttribute("id", id);
+    productDiv.innerHTML = `
+        <div class="card">
+            <img src="${image}" class="p-2" height="250px" alt="...">
             <div class="card-body">
-              <h5 class="card-title line-clamp-1">${title}</h5>
-              <p class="card-text line-clamp-3">${description}</p>
+      <h5 class="card-title">${title}</h5>
+              <p class="card-text line-clamp-2">${description}</p>
             </div>
-            <div
-              class="card-footer w-100 fw-bold d-flex justify-content-between gap-3"
-            >
-              <span>Price:</span><span>${price} $</span>
+            <div class="card-footer w-100 fw-bold d-flex justify-content-between gap-3">
+            <span>Price:</span><span>${price} $</span>
+                
             </div>
             <div class="card-footer w-100 d-flex justify-content-center gap-3">
-              <button class="btn btn-primary">Add to Basket</button>
-              <button
-                class="btn btn-dark"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
+                <button class="btn btn-primary">
+                Add to Basket
+                </button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 See Details
-              </button>
+                </button>
             </div>
           </div>
-        </div> 
-   `;
-  });
-  products.addEventListener("click", (event) => {
-    
-    if (event.target.classList.contains("btn-primary")) {
-      document.querySelector("#sepet").textContent++;
-      basketProduct.innerHTML=`<div class="card mb-3" style="max-width: 540px">
-      <div class="row g-0">
-        <div class="col-md-4 my-auto">
-          <img
-            src="${}"
-            class="img-fluid rounded-start"
-            alt="..."
-          />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Product Name</h5>
-            <div class="d-flex align-items-center gap-2" role="button">
-              <i
-                class="fa-solid fa-minus border rounded-circle bg-dark text-white p-2"
-              ></i
-              ><span class="fw-bold">1</span>
-              
-              <i class="fa-solid fa-plus border bg-dark text-white rounded-circle p-2"
-              ></i>
-            </div>
-            <p class="card-text h5">Total: <span>$</span></p>
-            <button class="btn btn-dark">Remove</button>
-          </div>
-        </div>
-      </div>
-    </div>`
-    }
+        `;
+    productDiv.addEventListener("click", (e) => {
+      if (e.target.classList.contains("btn-primary")) {
+        addToCart(item);
+      }else if (e.target.classList.contains("btn-dark")){
+        showModal(item)
+      }
+    });
+    productDivs.appendChild(productDiv);
   });
 };
+//!Selected Category Product
 butons.addEventListener("click", (event) => {
-  products.innerHTML = "";
+  productDivs.innerHTML = "";
   if (event.target.textContent == "All") {
     categoryName.textContent = "All";
     showData(dataArray);
@@ -113,7 +84,25 @@ butons.addEventListener("click", (event) => {
   }
 });
 
-const getProperty=(product)=>{
-  const {title,image,price}= product
-
+const addToCart=(product)=>{
+if(baskets.some(item=>item.title === product.title)){
+  baskets = baskets.map(item=>{
+    return item.id === product.id ?{...item, quantity: item.quantity +1} : item;
+  })
+}else{
+  baskets.push(product)
+}
+}
+const showModal=(product)=>{
+  fetch(`https://anthonyfs.pythonanywhere.com/api/products/${product.id}`)
+  .then((res) => res.json())
+  .then((res) => {
+    modalBody.innerHTML = `<div class="text-center">
+          <img src="${res.image}" class="p-2" height="250px" alt="...">
+          <h5 class="card-title">${res.title}</h5>
+          <p class="card-text">${res.description}</p>
+          <p class="card-text">Price: ${res.price} $</p>
+          </div>
+          `;
+  })
 }

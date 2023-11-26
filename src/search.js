@@ -1,7 +1,7 @@
-import { showData, products, search } from "../main.js";
+import { showData, productDivs, search } from "../main.js";
 export const searchCategory = (categoryData) => {
   search.addEventListener("input", () => {
-    products.innerHTML = "";
+    productDivs.innerHTML = "";
     const filteredData = categoryData.filter((item) =>
       item.title.toLowerCase().includes(search.value.toLowerCase())
     );

@@ -3,4 +3,3 @@ products.addEventListener("click", (event) => {
       document.querySelector("#sepet").textContent++;
     }
   });
-};
