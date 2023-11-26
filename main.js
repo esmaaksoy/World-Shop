@@ -2,14 +2,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
 import { selectedCategory } from "./src/selectedCategory.js";
 import { searchCategory } from "./src/search.js";
-import { updateLocalStorage } from "./offcanvas.js";
-export { showData,productDivs, search,baskets,offcanvasBody };
+import { updateLocalStorage } from "./src/offcanvas.js";
+export { showData, productDivs, search, baskets, offcanvasBody,basketNumber };
 const productDivs = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
 const categoryName = document.querySelector("#category");
 const modalBody = document.querySelector(".modal-body");
-const offcanvasBody =document.querySelector(".offcanvas-body")
+const offcanvasBody = document.querySelector(".offcanvas-body");
+const basketNumber= document.querySelector("#sepet");
 let dataArray = [];
 let baskets = [];
 const getProducts = async () => {
@@ -59,9 +60,10 @@ const showData = (product) => {
         `;
     productDiv.addEventListener("click", (e) => {
       if (e.target.classList.contains("btn-primary")) {
+basketNumber.innerText= Number(basketNumber.innerText)+1
         addToCart(item);
-      }else if (e.target.classList.contains("btn-dark")){
-        showModal(item)
+      } else if (e.target.classList.contains("btn-dark")) {
+        showModal(item);
       }
     });
     productDivs.appendChild(productDiv);
@@ -85,29 +87,28 @@ butons.addEventListener("click", (event) => {
   }
 });
 
-const addToCart=(product)=>{
-  console.log(baskets);
-if(baskets.some(item=>item.title === product.title)){
-  baskets = baskets.map(item=>{
-    return item.id === product.id ?{...item, quantity: item.quantity +1} : item;
-  })
-}else{
-  baskets.push(product)
-}
-updateLocalStorage()
-}
-const showModal=(product)=>{
+const addToCart = (product) => {
+  if (baskets.some((item) => item.title === product.title)) {
+    baskets = baskets.map((item) => {
+      return item.id === product.id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item;
+    });
+  } else {
+    baskets.push(product);
+  }
+  updateLocalStorage();
+};
+const showModal = (product) => {
   fetch(`https://anthonyfs.pythonanywhere.com/api/products/${product.id}`)
-  .then((res) => res.json())
-  .then((res) => {
-    modalBody.innerHTML = `<div class="text-center">
+    .then((res) => res.json())
+    .then((res) => {
+      modalBody.innerHTML = `<div class="text-center">
           <img src="${res.image}" class="p-2" height="250px" alt="...">
           <h5 class="card-title">${res.title}</h5>
           <p class="card-text">${res.description}</p>
           <p class="card-text">Price: ${res.price} $</p>
           </div>
           `;
-  })
-}
-         
- 
+    });
+};
