@@ -5,7 +5,7 @@
 
 ## Screenshots
 
-![Project snapshot](./world shop.gif)
+![Project snapshot](./world%20shop.gif)
 
 [Image Galery Live Page](https://esmaaksoy.github.io/Project-Bootstrap-2/)
 
