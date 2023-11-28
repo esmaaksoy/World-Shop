@@ -1,11 +1,11 @@
-import { baskets, offcanvasBody,basketNumber} from "../main.js";
+import { baskets, offcanvasBody, basketNumber } from "../main.js";
 export const updateLocalStorage = () => {
   offcanvasBody.innerHTML = "";
   localStorage.setItem("shoppingCart", JSON.stringify(baskets));
   const basketCard = localStorage.getItem("shoppingCart");
   const basketProduct = JSON.parse(basketCard);
   basketProduct.forEach((item) => {
-    const {image,title } = item;
+    const { image, title } = item;
     offcanvasBody.innerHTML += `
        <div class="card mb-3" style="max-width: 540px">
       <div class="row g-0">
@@ -34,51 +34,53 @@ export const updateLocalStorage = () => {
         </div>
       </div>
     </div>`;
-  
   });
-  cardBody() 
-  totalCalculate()
+  cardBody();
+  totalCalculate();
 };
-const cardBody =()=>{
-  const cards= document.querySelectorAll(".card")
-  cards.forEach(card =>{
-    card.addEventListener("click",(event)=>{
-      if(event.target.classList.contains("fa-plus")){
-    event.target.previousElementSibling.innerText++
-    basketNumber.innerText++
-    calculateProductPric(event.target)
-     }else if(event.target.classList.contains("fa-minus")){
-        if(event.target.nextElementSibling.innerText>1){
-          event.target.nextElementSibling.innerText--
-          basketNumber.innerText--
+const cardBody = () => {
+  const cards = document.querySelectorAll(".card");
+  cards.forEach((card) => {
+    card.addEventListener("click", (event) => {
+      if (event.target.classList.contains("fa-plus")) {
+        event.target.previousElementSibling.innerText++;
+        basketNumber.innerText++;
+        calculateProductPric(event.target);
+      } else if (event.target.classList.contains("fa-minus")) {
+        if (event.target.nextElementSibling.innerText > 1) {
+          event.target.nextElementSibling.innerText--;
+          basketNumber.innerText--;
         }
-        calculateProductPric(event.target)
-      }else if(event.target.classList.contains("btn-dark")){
-        card.remove()
-        calculateTotalPrice()
+        calculateProductPric(event.target);
+      } else if (event.target.classList.contains("btn-dark")) {
+        card.remove();
+        calculateTotalPrice();
       }
-    })
-})
-
-}
-const calculateProductPric = (e)=>{
-const quantity = e.closest(".card").querySelector(".quantity");
+    });
+  });
+};
+const calculateProductPric = (e) => {
+  const quantity = e.closest(".card").querySelector(".quantity");
   const price = e.closest(".card").querySelector(".price");
   const total = e.closest(".card").querySelector(".total");
-  total.textContent = Number(quantity.textContent) * Number(price.textContent)
-  calculateTotalPrice()
-  }
+  // price.textContent= price.textContent * quantity.textContent
+  total.textContent = Number(quantity.textContent) * Number(price.textContent);
+  calculateTotalPrice();
+};
 
-  const calculateTotalPrice = () => {
-    const prices = document.querySelectorAll(".total")
-    const subtotal = [...prices].reduce(
-      (sum, price) => sum + Number(price.textContent),
-      0
-    )
-    document.querySelector(".totalPrice").innerText= subtotal
-  }
+const calculateTotalPrice = () => {
+  const prices = document.querySelectorAll(".total");
+  const subtotal = [...prices].reduce(
+    (sum, price) => sum + Number(price.textContent),
+    0
+  );
+  document.querySelector(".totalPrice").innerText = subtotal;
+};
 
+window.addEventListener("load", () => {
+  calculateTotalPrice();
+});
 
-  window.addEventListener("load", () => {
-    calculateTotalPrice()
-  })
+document.querySelector(".basket").addEventListener("click",()=>{
+ calculateTotalPrice()
+})

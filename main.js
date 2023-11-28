@@ -3,14 +3,14 @@ import "./style.scss";
 import { selectedCategory } from "./src/selectedCategory.js";
 import { searchCategory } from "./src/search.js";
 import { updateLocalStorage } from "./src/offcanvas.js";
-export { showData, productDivs, search, baskets, offcanvasBody,basketNumber};
+export { showData, productDivs, search, baskets, offcanvasBody, basketNumber };
 const productDivs = document.querySelector("#products");
 const search = document.querySelector("#searchInput");
 const butons = document.querySelector("#btns");
 const categoryName = document.querySelector("#category");
 const modalBody = document.querySelector(".modal-body");
 const offcanvasBody = document.querySelector(".offcanvas-body");
-const basketNumber= document.querySelector("#sepet");
+const basketNumber = document.querySelector("#sepet");
 let dataArray = [];
 let baskets = [];
 const getProducts = async () => {
@@ -25,7 +25,6 @@ const getProducts = async () => {
     dataArray = data;
     showData(data);
     selectedCategory(data);
-    
   } catch (error) {
     console.log(error);
   }
@@ -61,7 +60,7 @@ const showData = (product) => {
         `;
     productDiv.addEventListener("click", (e) => {
       if (e.target.classList.contains("btn-primary")) {
-basketNumber.innerText= Number(basketNumber.innerText)+1
+        basketNumber.innerText = Number(basketNumber.innerText) + 1;
         addToCart(item);
       } else if (e.target.classList.contains("btn-dark")) {
         showModal(item);
@@ -113,9 +112,3 @@ const showModal = (product) => {
           `;
     });
 };
-// //!.......................
-// const updateBaskets = (productId,newQuantity)=>{
-//   baskets = baskets.map(item => {
-//     return item.id === productId ? { ...item, quantity: newQuantity } : item;
-//   });
-// }
