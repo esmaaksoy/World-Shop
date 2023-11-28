@@ -7,7 +7,7 @@
 
 ![Project snapshot](./world%20shop.gif)
 
-[Image Galery Live Page](https://esmaaksoy.github.io/Project-Bootstrap-2/)
+[Image Galery Live Page](https://world-shop.netlify.app/)
 
 ## Tech/framework used
 
