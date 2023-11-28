@@ -7,7 +7,7 @@
 
 ![Project snapshot](./world%20shop.gif)
 
-[Image Galery Live Page](https://world-shop.netlify.app/)
+[World Shop Live Page](https://world-shop.netlify.app/)
 
 ## Tech/framework used
 
