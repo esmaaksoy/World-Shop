@@ -26,8 +26,9 @@ export const updateLocalStorage = () => {
               ><span class="fw-bold quantity">${item.quantity}</span>
               <i class="fa-solid fa-plus border bg-dark text-white rounded-circle p-2"
               ></i>
+              <span class="price">${item.price}</span>
             </div>
-            <p class="card-text h6 text-secondary">Total: ${item.quantity}X<span class="price">${item.price}</span> $</p>
+            <p class="card-text h6 text-secondary">Total:<span class="total">${item.price}</span> $</p>
             <button class="btn btn-dark">Remove</button>
           </div>
         </div>
@@ -45,31 +46,39 @@ const cardBody =()=>{
       if(event.target.classList.contains("fa-plus")){
     event.target.previousElementSibling.innerText++
     basketNumber.innerText++
-    //  totalCalculate()
+    calculateProductPric(event.target)
      }else if(event.target.classList.contains("fa-minus")){
         if(event.target.nextElementSibling.innerText>1){
           event.target.nextElementSibling.innerText--
           basketNumber.innerText--
         }
-        totalCalculate(event.target)
+        calculateProductPric(event.target)
       }else if(event.target.classList.contains("btn-dark")){
         card.remove()
-        totalCalculate(event.target)
-        const cardQuantity = event.target.closest(".card-body").querySelector(".quantity")
-        basketNumber.innerText = basketNumber.innerText - Number(cardQuantity.innerText)
+        calculateTotalPrice()
       }
     })
 })
 
 }
-const totalCalculate = (e)=>{
-  const cardBody = e.closest(".card").querySelector(".card-body");
-  const quantity = cardBody.querySelector(".quantity");
-  const price = cardBody.querySelector(".price");
-  const totalPrice = document.querySelector(".total");
-  const total = Number(quantity.innerText) * Number(price.innerText);
-  totalPrice.innerText = total;
+const calculateProductPric = (e)=>{
+const quantity = e.closest(".card").querySelector(".quantity");
+  const price = e.closest(".card").querySelector(".price");
+  const total = e.closest(".card").querySelector(".total");
+  total.textContent = Number(quantity.textContent) * Number(price.textContent)
+  calculateTotalPrice()
   }
 
-  
-  
+  const calculateTotalPrice = () => {
+    const prices = document.querySelectorAll(".total")
+    const subtotal = [...prices].reduce(
+      (sum, price) => sum + Number(price.textContent),
+      0
+    )
+    document.querySelector(".totalPrice").innerText= subtotal
+  }
+
+
+  window.addEventListener("load", () => {
+    calculateTotalPrice()
+  })
